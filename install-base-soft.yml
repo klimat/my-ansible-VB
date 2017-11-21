@@ -1,0 +1,38 @@
+- hosts: all
+  user: root
+ 
+  tasks:
+    - name: Add EPEL repo
+      yum: name=http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm 
+ 
+    - name: Software install
+      yum: name={{item}} state=latest
+      with_items:
+        - yum-priorities 
+        - htop 
+        - mc 
+        - vim 
+        - ntsysv 
+        - wget
+        - rsync 
+        - screen 
+        - ntpdate
+        - net-tools.x86_64 
+        - openssh-clients 
+        - yum-utils 
+        - yum-remove-with-leaves
+         
+    - name: NTP daemon enable
+      service: name=ntpdate enabled=yes
+       
+    - name: NTP daemon restart
+      service: name=ntpdate state=restarted
+       
+    - name: Disable SELinux 
+      selinux: state=disabled
+       
+    - name: firewalld daemon stop
+      service: name=firewalld state=stopped 
+           
+    - name: firewalld daemon disable
+      service: name=firewalld enabled=no

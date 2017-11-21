@@ -1,0 +1,6 @@
+- hosts: my-centos-srv
+#  user: root
+ 
+  tasks:
+    - name: Update system
+      yum: name='*' state=latest
